@@ -90,7 +90,46 @@ class BattallionTwoViewset(viewsets.ModelViewSet):
     serializer_class = BattallionTwoSerializer
     queryset = Battallion_two.objects.all()
 
+class BattalionTwo_overrall(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionTwoSerializer
+
+    def get(self, request):
+        query_parameter_1 = "embassy"
+        query_parameter_2 = "consolate"
+        query_parameter_3 = "high_commission"
+        query_parameter_4 = "other_diplomats"
+        query_parameter_5 = "administration"
+
+        embassy = len(Battallion_two.objects.filter(department=query_parameter_1))
+        consolate = len(Battallion_two.objects.filter(department=query_parameter_2))
+        high_commission = len(Battallion_two.objects.filter(department=query_parameter_3))
+        other_diplomats = len(Battallion_two.objects.filter(department=query_parameter_4))
+        administration = len(Battallion_two.objects.filter(department=query_parameter_5))
+
+        summary_object = {
+            "embassy": embassy,
+            "consolate": consolate,
+            "high_commission":  high_commission,
+            "other_diplomats": other_diplomats,
+            "administration": administration
+        }
+        return Response(summary_object, status=status.HTTP_200_OK)
     
+class BattalionTwo_query(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionTwoSerializer
+
+    def post(self, request):
+        print(request.data['file_number'])
+        query_parameter = request.data['file_number']
+        try:
+            query = Battallion_two.objects.get(file_number=query_parameter)
+            serializer = BattallionTwoSerializer(query, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            content = {"error": "Employee with this file number doesn't exit in the database"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 class ChangePasswordApi(GenericAPIView):
     serializer_class = ChangePasswordSerializer

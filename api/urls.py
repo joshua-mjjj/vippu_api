@@ -11,7 +11,9 @@ from api.views import (
     ChangePasswordApi,
     UserType,
     BattallionTwoViewset,
-    export_excel
+    export_excel,
+    BattalionTwo_query,
+    BattalionTwo_overrall
 )
 
 router = DefaultRouter()
@@ -23,6 +25,8 @@ urlpatterns = [
     path("login/", AccountLoginAPIView.as_view(), name="login"),
     path("signup/", SignUp.as_view(), name="api-signup"),
     path("user_type_check/", UserType.as_view(), name="user-check"),
+    path("battalionquery_two/", BattalionTwo_query.as_view(), name="battalionquery_two"),
+    path("battaliontwo_overrall/", BattalionTwo_overrall.as_view(), name="battaliontwo_overrall"),
     path("export_excel/", export_excel, name="export_excel"),
 
     path("token/refresh/", refresh_jwt_token),
