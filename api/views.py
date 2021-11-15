@@ -95,11 +95,11 @@ class BattalionTwo_overrall(GenericAPIView):
     serializer_class = BattallionTwoSerializer
 
     def get(self, request):
-        query_parameter_1 = "embassy"
-        query_parameter_2 = "consolate"
-        query_parameter_3 = "high_commission"
-        query_parameter_4 = "other_diplomats"
-        query_parameter_5 = "administration"
+        query_parameter_1 = "Embassy"
+        query_parameter_2 = "Consolate"
+        query_parameter_3 = "High commission"
+        query_parameter_4 = "Other diplomats"
+        query_parameter_5 = "Administration"
 
         embassy = len(Battallion_two.objects.filter(department=query_parameter_1))
         consolate = len(Battallion_two.objects.filter(department=query_parameter_2))
@@ -155,6 +155,8 @@ class ChangePasswordApi(GenericAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def export_excel(request):
+    # to implement some security here 
+    # print(request.user)
 
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=Expenses' + \
@@ -166,14 +168,59 @@ def export_excel(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    columns = ['First name', 'Last name', 'File number', 'Nin']
+    columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+        'ACCOUNT NUMBER',
+        'TEL CONTACT',
+        'SEX',
+        'RANK',
+        'EDUCATION LEVEL',
+        'OTHER EDUCATION LEVEL',
+        'BANK',
+        'BRANCH',
+        'DEPARTEMENT',
+        'TITLE',
+        'STATUS',
+        'SHIFT',
+        'DATE OF ENLISTMENT',
+        'DATE OF TRANSFER',
+        'DATE OF PROMOTION',
+        'DATE OF BIRTH',
+        'ARMED',
+        'SECTION',
+        'LOCATION',
+        'ON LEAVE',
+        'LEAVE START DATE',
+        'LEAVE END DATE']
 
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
 
     font_style = xlwt.XFStyle()
 
-    rows = Battallion_two.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin')
+    rows = Battallion_two.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin', 
+        'ipps',
+        'account_number',
+        'contact',
+        'sex',
+        'rank',
+        'education_level',
+        'other_education_level',
+        'bank',
+        'branch',
+        'department',
+        'title',
+        'status',
+        'shift',
+        'date_of_enlistment',
+        'date_of_transfer',
+        'date_of_promotion',
+        'date_of_birth',
+        'armed',
+        'section',
+        'location',
+        'on_leave',
+        'leave_start_date',
+        'leave_end_date')
 
     for row in rows:
         row_num += 1

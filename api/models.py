@@ -26,8 +26,8 @@ BATTALLION_TYPES = (
 )
 
 GENDER_TYPES = (
-    ("male", "Male"),
-    ("female", "Female"),
+    ("Male", "Male"),
+    ("Female", "Female"),
 )
 
 RANK_TYPES = (
@@ -47,72 +47,70 @@ RANK_TYPES = (
 )
 
 BATTALLION_TWO_DEPARTMENT_TYPES = (
-    ("embassy", "Embassy"),
-    ("consolate", "Consolate"),
-    ("high_commission", "High commission"),
-    ("other_diplomats", "Other diplomats"),
-    ("administration", "Administration")
+    ("Embassy", "Embassy"),
+    ("Consolate", "Consolate"),
+    ("High commission", "High commission"),
+    ("Other diplomats", "Other diplomats"),
+    ("Administration", "Administration")
 )
 
 TITLE_TYPES = (
-    ("commandant", "Commandant"),
-    ("deputy_commandant", "Deputy commandant"),
-    ("staff_officer", "Staff officer"),
-    ("head_of_operations", "Head of operations"),
-    ("head_of_armoury", "Head of armoury"),
-    ("supervisor", "Supervisor"),
-    ("in_Charge", "In Charge"),
-    ("2nd_in_charge", "2nd In Charge"),
-    ("driver", "Driver"),
+    ("Commandant", "Commandant"),
+    ("Deputy commandant", "Deputy commandant"),
+    ("Staff officer", "Staff officer"),
+    ("Head of operations", "Head of operations"),
+    ("Head of armoury", "Head of armoury"),
+    ("Supervisor", "Supervisor"),
+    ("In Charge", "In Charge"),
+    ("2nd In Charge", "2nd In Charge"),
+    ("Driver", "Driver"),
 )
 
 STATUS_TYPES = (
-    ("active", "Active"),
-    ("absent", "Absent(AWOL)"),
-    ("transfered", "Transfered"),
-    ("sick", "Sick"),
-    ("dead", "Dead"),
-    ("suspended", "Suspended"),
-    ("dismissed", "Dismissed"),
-    ("in_court", "In court"),
-    ("deserted", "Deserted"),
-    ("on_course", "On course"),
-    ("on_mission", "On mission"),
+    ("Active", "Active"),
+    ("Absent", "Absent(AWOL)"),
+    ("Transfered", "Transfered"),
+    ("Sick", "Sick"),
+    ("Dead", "Dead"),
+    ("Suspended", "Suspended"),
+    ("Dismissed", "Dismissed"),
+    ("In court", "In court"),
+    ("Deserted", "Deserted"),
+    ("On course", "On course"),
+    ("On mission", "On mission"),
 )
 
 SHIFT_TYPES = (
-    ("day", "Day"),
-    ("night", "Night"),
-    ("long_night", "Long night"),
-    ("none", "None(not applicable)"),
+    ("Day", "Day"),
+    ("Night", "Night"),
+    ("Long night", "Long night"),
+    ("None", "None(not applicable)"),
 )
 
 ARMED_TYPES = (
-    ("yes", "Yes"),
-    ("no", "No"),
+    ("Yes", "Yes"),
+    ("No", "No"),
 )
 
 LEAVE_TYPES = (
-    ("pass_leave", "Pass leave"),
-    ("maternity_leave", "Maternity leave"),
-    ("sick_leave", "Sick leave"),
-    ("study_leave", "Study leave"),
-    ("annual_leave", "Annual leave"),
-    ("not_no_leave", "Not no leave"),
+    ("Pass leave", "Pass leave"),
+    ("Maternity leave", "Maternity leave"),
+    ("Sick leave", "Sick leave"),
+    ("Study leave", "Study leave"),
+    ("Annual leave", "Annual leave"),
+    ("Not on leave", "Not on leave"),
 )
 
 EDUCATION_TYPES = (
-    ("ple", "PLE"),
-    ("uce", "UCE"),
-    ("uace", "UACE"),
-    ("diploma", "DIPLOMA"),
-    ("bachelors", "BACHELORS"),
-    ("masters", "MASTERS"),
-    ("doctorate", "DOCTORATE(PhD)"),
-    ("other", "OTHER")
+    ("PLE", "PLE"),
+    ("UCE", "UCE"),
+    ("UACE", "UACE"),
+    ("Diploma", "DIPLOMA"),
+    ("Bachelors", "BACHELORS"),
+    ("Masters", "MASTERS"),
+    ("Doctorate", "DOCTORATE(PhD)"),
+    ("Other", "OTHER")
 )
-
-GENDER_CHOICES = (("male", "Male"), ("female", "Female"))
 
 
 class UserManager(BaseUserManager):
