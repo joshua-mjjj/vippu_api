@@ -7,6 +7,7 @@ import random
 from rest_framework import status, serializers
 from rest_framework.generics import GenericAPIView, ListAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -154,6 +155,8 @@ class ChangePasswordApi(GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        
+@permission_classes((IsAuthenticated, ))
 def export_excel(request):
     # to implement some security here 
     # print(request.user)
