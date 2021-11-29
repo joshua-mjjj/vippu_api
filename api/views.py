@@ -16,6 +16,7 @@ from rest_framework_jwt.views import ObtainJSONWebToken
 from django.core.paginator import Paginator 
 from django.http import JsonResponse, HttpResponse 
 import xlwt 
+from vippu_backend.settings import unique_token
 
 from api.models import *
 from api.serializers import *
@@ -155,84 +156,129 @@ class ChangePasswordApi(GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        
-@permission_classes((IsAuthenticated, ))
+# @api_view(('GET',))      
 def export_excel(request):
-    # to implement some security here 
-    # print(request.user)
+    try: 
+        # to implement some security here 
+        print(request.method)
+        print(request.GET['unique'] )
+        token = request.GET['unique']
 
-    response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=Expenses' + \
-         str(datetime.datetime.now())+'.xls'
-    wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('Battalion Two')
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Two')
 
-    row_num = 0
-    font_style = xlwt.XFStyle()
-    font_style.font.bold = True
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
 
-    columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
-        'ACCOUNT NUMBER',
-        'TEL CONTACT',
-        'SEX',
-        'RANK',
-        'EDUCATION LEVEL',
-        'OTHER EDUCATION LEVEL',
-        'BANK',
-        'BRANCH',
-        'DEPARTEMENT',
-        'TITLE',
-        'STATUS',
-        'SHIFT',
-        'DATE OF ENLISTMENT',
-        'DATE OF TRANSFER',
-        'DATE OF PROMOTION',
-        'DATE OF BIRTH',
-        'ARMED',
-        'SECTION',
-        'LOCATION',
-        'ON LEAVE',
-        'LEAVE START DATE',
-        'LEAVE END DATE']
+            columns = [
+                '', 
+                '', 
+                '', 
+                '',
+                '',
+                '',
+                '',
+                '',
+                'BATTALION TWO DATA',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '']
 
-    for col_num in range(len(columns)):
-        ws.write(row_num, col_num, columns[col_num], font_style)
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
 
-    font_style = xlwt.XFStyle()
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
 
-    rows = Battallion_two.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin', 
-        'ipps',
-        'account_number',
-        'contact',
-        'sex',
-        'rank',
-        'education_level',
-        'other_education_level',
-        'bank',
-        'branch',
-        'department',
-        'title',
-        'status',
-        'shift',
-        'date_of_enlistment',
-        'date_of_transfer',
-        'date_of_promotion',
-        'date_of_birth',
-        'armed',
-        'section',
-        'location',
-        'on_leave',
-        'leave_start_date',
-        'leave_end_date')
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER',
+                'TEL CONTACT',
+                'SEX',
+                'RANK',
+                'EDUCATION LEVEL',
+                'OTHER EDUCATION LEVEL',
+                'BANK',
+                'BRANCH',
+                'DEPARTEMENT',
+                'TITLE',
+                'STATUS',
+                'SHIFT',
+                'DATE OF ENLISTMENT',
+                'DATE OF TRANSFER',
+                'DATE OF PROMOTION',
+                'DATE OF BIRTH',
+                'ARMED',
+                'SECTION',
+                'LOCATION',
+                'ON LEAVE',
+                'LEAVE START DATE',
+                'LEAVE END DATE']
 
-    for row in rows:
-        row_num += 1
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
 
-        for col_num in range(len(row)):
-            ws.write(row_num, col_num, str(row[col_num]), font_style)
-    wb.save(response)
+            font_style = xlwt.XFStyle()
 
-    return response
+            rows = Battallion_two.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps',
+                'account_number',
+                'contact',
+                'sex',
+                'rank',
+                'education_level',
+                'other_education_level',
+                'bank',
+                'branch',
+                'department',
+                'title',
+                'status',
+                'shift',
+                'date_of_enlistment',
+                'date_of_transfer',
+                'date_of_promotion',
+                'date_of_birth',
+                'armed',
+                'section',
+                'location',
+                'on_leave',
+                'leave_start_date',
+                'leave_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
 
 
 
