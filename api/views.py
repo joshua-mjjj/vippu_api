@@ -92,6 +92,11 @@ class BattallionTwoViewset(viewsets.ModelViewSet):
     serializer_class = BattallionTwoSerializer
     queryset = Battallion_two.objects.all()
 
+class BattallionOneViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionOneSerializer
+    queryset = Battallion_one.objects.all()
+
 class BattalionTwo_overrall(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = BattallionTwoSerializer
@@ -117,7 +122,30 @@ class BattalionTwo_overrall(GenericAPIView):
             "administration": administration
         }
         return Response(summary_object, status=status.HTTP_200_OK)
-    
+
+class BattalionOne_overrall(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionOneSerializer
+
+    def get(self, request):
+        query_parameter_1 = "UN Agencies"
+        query_parameter_2 = "Administration"
+        query_parameter_3 = "Drivers"
+
+        agencies = len(Battallion_one.objects.filter(department=query_parameter_1))
+        administration = len(Battallion_one.objects.filter(department=query_parameter_2))
+        drivers = len(Battallion_one.objects.filter(department=query_parameter_3))
+        
+
+        summary_object = {
+            "agencies": agencies,
+            "administration": administration,
+            "drivers":  drivers
+            
+        }
+        return Response(summary_object, status=status.HTTP_200_OK)
+
+
 class BattalionTwo_query(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = BattallionTwoSerializer
@@ -128,6 +156,21 @@ class BattalionTwo_query(GenericAPIView):
         try:
             query = Battallion_two.objects.get(file_number=query_parameter)
             serializer = BattallionTwoSerializer(query, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            content = {"error": "Employee with this file number doesn't exit in the database"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+class BattalionOne_query(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionOneSerializer
+
+    def post(self, request):
+        print(request.data['file_number'])
+        query_parameter = request.data['file_number']
+        try:
+            query = Battallion_one.objects.get(file_number=query_parameter)
+            serializer = BattallionOneSerializer(query, many=False)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             content = {"error": "Employee with this file number doesn't exit in the database"}
@@ -176,32 +219,9 @@ def export_excel(request):
             font_style.font.bold = True
 
             columns = [
-                '', 
-                '', 
-                '', 
-                '',
-                '',
-                '',
-                '',
-                '',
+                '', '', '', '','','','','',
                 'BATTALION TWO DATA',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
+                '','','','','','','','','','','','','','','','','',
                 '']
 
             for col_num in range(len(columns)):

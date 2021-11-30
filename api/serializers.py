@@ -44,3 +44,9 @@ class BattallionTwoSerializer(serializers.ModelSerializer):
         model = Battallion_two
         fields = "__all__"
 
+# BATTALLION ONE SERIALIZER 
+class BattallionOneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Battallion_one
+        fields = "__all__"
+

@@ -54,6 +54,12 @@ BATTALLION_TWO_DEPARTMENT_TYPES = (
     ("Administration", "Administration")
 )
 
+BATTALLION_ONE_DEPARTMENT_TYPES = (
+    ("UN Agencies", "UN Agencies"),
+    ("Administration", "Administration"),
+    ("Drivers", "Drivers")
+)
+
 TITLE_TYPES = (
     ("Commandant", "Commandant"),
     ("Deputy commandant", "Deputy commandant"),
@@ -228,6 +234,49 @@ class Battallion_two(models.Model):
     class Meta:
         verbose_name = "Battallion Two"
         verbose_name_plural = "Battallion Two"
+
+    def __str__(self):
+        return '{}, {}'.format(self.first_name, self.file_number)
+
+
+# BATTALLION 2 TABLE MODEL 
+class Battallion_one(models.Model):
+    first_name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+    nin = models.CharField(max_length=32)
+    ipps = models.CharField(max_length=32)
+    file_number = models.CharField(max_length=32, unique=True) #, blank=True, null=True
+    battallion = models.CharField(max_length=32)
+    account_number = models.CharField(max_length=32, blank=True, null=True)
+    contact = models.CharField(max_length=32, blank=True, null=True)
+    sex = models.CharField(max_length=32, choices=GENDER_TYPES)
+    rank = models.CharField(max_length=32, choices=RANK_TYPES)
+    education_level = models.CharField(max_length=32, choices=EDUCATION_TYPES)
+    other_education_level = models.CharField(max_length=32, blank=True, null=True) # Gives us an extra field incase of OTHER
+    bank = models.CharField(max_length=32, blank=True, null=True)
+    branch = models.CharField(max_length=32, blank=True, null=True)
+    title = models.CharField(max_length=32, choices=TITLE_TYPES)
+    status = models.CharField(max_length=32, choices=STATUS_TYPES)
+    shift = models.CharField(max_length=32, choices=SHIFT_TYPES)
+    date_of_enlistment = models.DateField(blank=True, null=True)
+    date_of_transfer = models.DateField(blank=True, null=True)
+    date_of_promotion = models.DateField(blank=True, null=True)
+    date_of_birth = models.DateField(blank=False, null=False)
+    armed = models.CharField(max_length=32, choices=ARMED_TYPES)
+    section = models.CharField(max_length=32)
+    location = models.CharField(max_length=32)
+    on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
+    leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+    leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+
+    department = models.CharField(max_length=32, choices=BATTALLION_ONE_DEPARTMENT_TYPES)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Battallion One"
+        verbose_name_plural = "Battallion One"
 
     def __str__(self):
         return '{}, {}'.format(self.first_name, self.file_number)
