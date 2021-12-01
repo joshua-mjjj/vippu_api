@@ -118,32 +118,34 @@ EDUCATION_TYPES = (
     ("Other", "OTHER")
 )
 
-# UNDP Head Office
-# UN Women
-# IFAD office
-# UNDSS office
-# WFP
+SECTION_TYPES = (
+    ("UNDP Head Office", "UNDP Head Office"),
+    ("UN Women", "UN Women"),
+    ("IFAD office", "IFAD office"),
+    ("UNDSS office", "UNDSS office"),
+    ("WFP", "WFP"),
 
-# WHO
-# World bank
-# FAO office
-# SPGS office
-# UNHCR new offices
+    ("WHO", "WHO"),
+    ("World bank", "World bank"),
+    ("FAO office", "FAO office"),
+    ("SPGS office", "SPGS office"),
+    ("UNHCR new offices", "UNHCR new offices"),
 
-# UNHCR Extension
-# I.C.C field offices
-# UNFPA
-# I.O.M head office
-# I.O.M Transit Centre
+    ("UNHCR Extension", "UNHCR Extension"),
+    ("I.C.C field offices", "IFAD office"),
+    ("UNFPA", "UNFPA"),
+    ("I.O.M head office", "I.O.M head office"),
+    ("I.O.M Transit Centre", "I.O.M Transit Centre"),
 
-# UNOHCHR office
-# EADB
-# UNDP
-# UNDP Gulu
-# UNDP Moroto
+    ("UNOHCHR office", "UNOHCHR office"),
+    ("EADB", "EADB"),
+    ("UNDP", "UNDP"),
+    ("UNDP Gulu", "UNDP Gulu"),
+    ("UNDP Moroto", "UNDP Moroto"),
 
-# UNICEF office
-# UNDP Arua
+    ("UNICEF office", "UNICEF office"),
+    ("UNDP Arua", "UNDP Arua"),
+)
 
 
 class UserManager(BaseUserManager):
@@ -184,7 +186,7 @@ class User(AbstractUser):
     top_level_incharge = models.BooleanField(default=False) # Has access to the entire Battallion
     lower_level_incharge = models.BooleanField(default=False) # Has access to either Department or section in the Battallion they belong to
     department = models.CharField(max_length=32, blank=True, null=True) # Very Long choise field
-    section = models.CharField(max_length=32, blank=True, null=True) # Very Long choise field
+    section = models.CharField(max_length=32, choices=SECTION_TYPES, blank=True, null=True) # Very Long choise field
 
     phone_number = models.CharField(max_length=50, blank=True) # null=True
     is_staff = models.BooleanField("staff status", default=False)

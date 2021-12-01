@@ -273,6 +273,10 @@ def export_excel(request):
                 ws.write(row_num, col_num, columns[col_num], font_style)
 
             font_style = xlwt.XFStyle()
+            
+            # for reports with specific Sections
+            # query_parameter = "UN Women"
+            # rows = Battallion_one.objects.filter(section=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
 
             rows = Battallion_two.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps',
