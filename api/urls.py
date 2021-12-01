@@ -16,7 +16,8 @@ from api.views import (
     BattalionTwo_query,
     BattalionOne_query,
     BattalionTwo_overrall,
-    BattalionOne_overrall
+    BattalionOne_overrall,
+    BattalionTwo_section_query
 )
 
 router = DefaultRouter()
@@ -33,6 +34,7 @@ urlpatterns = [
     path("battalionquery_one/", BattalionOne_query.as_view(), name="battalionquery_one"),
     path("battaliontwo_overrall/", BattalionTwo_overrall.as_view(), name="battaliontwo_overrall"),
     path("battalionone_overrall/", BattalionOne_overrall.as_view(), name="battalionone_overrall"),
+    path("battalionone_section_query/", BattalionTwo_section_query.as_view(), name="battalionone_section_query"),
     path("export_excel/", export_excel, name="export_excel"),
 
     path("token/refresh/", refresh_jwt_token),

@@ -145,6 +145,20 @@ class BattalionOne_overrall(GenericAPIView):
         }
         return Response(summary_object, status=status.HTTP_200_OK)
 
+class BattalionTwo_section_query(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionOneSerializer
+
+    def post(self, request):
+        try:
+            print(request.data['section'])
+            query_parameter = request.data['section']
+            query = Battallion_one.objects.filter(section=query_parameter)
+            serializer = BattallionOneSerializer(query, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            content = {"error": "Section doesn't exit in the database"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
 class BattalionTwo_query(GenericAPIView):
     permission_classes = (IsAuthenticated,)

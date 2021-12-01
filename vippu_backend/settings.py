@@ -42,9 +42,7 @@ ALLOWED_HOSTS = ["*"]
 # Usually whitelisted when going for deployment
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "http://localhost:3001",
-    "https://police-database-ui.herokuapp.com",
-    "http://police-database-ui.herokuapp.com"
+    "http://localhost:3001"
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
@@ -206,7 +204,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 
-JWT_AUTH = {"JWT_EXPIRATION_DELTA": timedelta(days=60)}
+JWT_AUTH = {"JWT_EXPIRATION_DELTA": timedelta(hours=12)}
 LOGIN_URL = "/api/auth/login/"
 LOGOUT_URL = "/api/auth/logout/"
 LOGIN_REDIRECT_URL = "/"

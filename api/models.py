@@ -118,6 +118,33 @@ EDUCATION_TYPES = (
     ("Other", "OTHER")
 )
 
+# UNDP Head Office
+# UN Women
+# IFAD office
+# UNDSS office
+# WFP
+
+# WHO
+# World bank
+# FAO office
+# SPGS office
+# UNHCR new offices
+
+# UNHCR Extension
+# I.C.C field offices
+# UNFPA
+# I.O.M head office
+# I.O.M Transit Centre
+
+# UNOHCHR office
+# EADB
+# UNDP
+# UNDP Gulu
+# UNDP Moroto
+
+# UNICEF office
+# UNDP Arua
+
 
 class UserManager(BaseUserManager):
     def _create_user(self, username, password, is_staff, is_superuser, **extra_fields):
