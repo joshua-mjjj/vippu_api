@@ -48,7 +48,7 @@ RANK_TYPES = (
 
 BATTALLION_TWO_DEPARTMENT_TYPES = (
     ("Embassy", "Embassy"),
-    ("Consolate", "Consolate"),
+    ("Consulate", "Consulate"),
     ("High commission", "High commission"),
     ("Other diplomats", "Other diplomats"),
     ("Administration", "Administration")

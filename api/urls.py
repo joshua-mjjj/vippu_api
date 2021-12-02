@@ -13,6 +13,8 @@ from api.views import (
     BattallionTwoViewset,
     BattallionOneViewset,
     export_excel,
+    export_excel_B_one,
+    export_excel_B_one_section,
     BattalionTwo_query,
     BattalionOne_query,
     BattalionTwo_overrall,
@@ -36,6 +38,8 @@ urlpatterns = [
     path("battalionone_overrall/", BattalionOne_overrall.as_view(), name="battalionone_overrall"),
     path("battalionone_section_query/", BattalionTwo_section_query.as_view(), name="battalionone_section_query"),
     path("export_excel/", export_excel, name="export_excel"),
+    path("export_battalion_one/", export_excel_B_one, name="export_battalion_one"),
+    path("export_battalion_one_section/", export_excel_B_one_section, name="export_battalion_one_section"),
 
     path("token/refresh/", refresh_jwt_token),
     path("users/me/", UserProfile.as_view()),
