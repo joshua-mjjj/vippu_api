@@ -84,6 +84,7 @@ STATUS_TYPES = (
     ("Deserted", "Deserted"),
     ("On course", "On course"),
     ("On mission", "On mission"),
+    ("On leave", "On leave"),
 )
 
 SHIFT_TYPES = (
