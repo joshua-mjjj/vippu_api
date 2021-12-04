@@ -42,8 +42,8 @@ ALLOWED_HOSTS = ["http://localhost:3000", "http://vippu.herokuapp.com", "https:/
 # Usually whitelisted when going for deployment
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "https://vippu.herokuapp.com/",
-    "http://vippu.herokuapp.com/",
+    "https://vippu.herokuapp.com",
+    "http://vippu.herokuapp.com",
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
