@@ -70,6 +70,7 @@ TITLE_TYPES = (
     ("In Charge", "In Charge"),
     ("2nd In Charge", "2nd In Charge"),
     ("Driver", "Driver"),
+    ("N/A", "N/A")
 )
 
 STATUS_TYPES = (
@@ -113,6 +114,7 @@ EDUCATION_TYPES = (
     ("UCE", "UCE"),
     ("UACE", "UACE"),
     ("Diploma", "DIPLOMA"),
+    ("Post Graduate Diploma", "POST GRADUATE DIPLOMA"),
     ("Bachelors", "BACHELORS"),
     ("Masters", "MASTERS"),
     ("Doctorate", "DOCTORATE(PhD)"),
@@ -187,7 +189,7 @@ class User(AbstractUser):
     top_level_incharge = models.BooleanField(default=False) # Has access to the entire Battallion
     lower_level_incharge = models.BooleanField(default=False) # Has access to either Department or section in the Battallion they belong to
     department = models.CharField(max_length=32, blank=True, null=True) # Very Long choise field
-    section = models.CharField(max_length=32, choices=SECTION_TYPES, blank=True, null=True) # Very Long choise field
+    section = models.CharField(max_length=150, choices=SECTION_TYPES, blank=True, null=True) # Very Long choise field
 
     phone_number = models.CharField(max_length=50, blank=True) # null=True
     is_staff = models.BooleanField("staff status", default=False)
@@ -238,6 +240,7 @@ class Battallion_two(models.Model):
     battallion = models.CharField(max_length=32)
     account_number = models.CharField(max_length=32, blank=True, null=True)
     contact = models.CharField(max_length=32, blank=True, null=True)
+    tin_number = models.CharField(max_length=32, blank=True, null=True)
     sex = models.CharField(max_length=32, choices=GENDER_TYPES)
     rank = models.CharField(max_length=32, choices=RANK_TYPES)
     education_level = models.CharField(max_length=32, choices=EDUCATION_TYPES)
@@ -253,8 +256,8 @@ class Battallion_two(models.Model):
     date_of_promotion = models.DateField(blank=True, null=True)
     date_of_birth = models.DateField(blank=False, null=False)
     armed = models.CharField(max_length=32, choices=ARMED_TYPES)
-    section = models.CharField(max_length=32)
-    location = models.CharField(max_length=32)
+    section = models.CharField(max_length=150)
+    location = models.CharField(max_length=150)
     on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
     leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
     leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
@@ -279,6 +282,7 @@ class Battallion_one(models.Model):
     battallion = models.CharField(max_length=32)
     account_number = models.CharField(max_length=32, blank=True, null=True)
     contact = models.CharField(max_length=32, blank=True, null=True)
+    tin_number = models.CharField(max_length=32, blank=True, null=True)
     sex = models.CharField(max_length=32, choices=GENDER_TYPES)
     rank = models.CharField(max_length=32, choices=RANK_TYPES)
     education_level = models.CharField(max_length=32, choices=EDUCATION_TYPES)
@@ -293,8 +297,8 @@ class Battallion_one(models.Model):
     date_of_promotion = models.DateField(blank=True, null=True)
     date_of_birth = models.DateField(blank=False, null=False)
     armed = models.CharField(max_length=32, choices=ARMED_TYPES)
-    section = models.CharField(max_length=32)
-    location = models.CharField(max_length=32)
+    section = models.CharField(max_length=150)
+    location = models.CharField(max_length=150)
     on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
     leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
     leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
