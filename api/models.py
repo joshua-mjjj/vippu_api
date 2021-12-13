@@ -259,6 +259,7 @@ class Battallion_two(models.Model):
     section = models.CharField(max_length=150)
     location = models.CharField(max_length=150)
     on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
+    notify_leave = models.BooleanField(default=False)
     leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
     leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -300,6 +301,7 @@ class Battallion_one(models.Model):
     section = models.CharField(max_length=150)
     location = models.CharField(max_length=150)
     on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
+    notify_leave = models.BooleanField(default=False)
     leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
     leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
 

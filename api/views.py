@@ -224,6 +224,7 @@ def export_excel(request):
         # print(request.method)
         # print(request.GET['unique'] )
         token = request.GET['unique']
+        title_doc = request.GET['title_doc']
 
         if token == unique_token:
             response = HttpResponse(content_type='application/ms-excel')
@@ -238,7 +239,7 @@ def export_excel(request):
 
             columns = [
                 '', '', '', '','','','','',
-                'BATTALION TWO DATA',
+                title_doc,
                 '','','','','','','','','','','','','','','','','',
                 '']
 
@@ -290,8 +291,9 @@ def export_excel_B_one_section_leave(request):
         token = request.GET['unique']
         query_parameter = request.GET['section']
         query_parameter2 = request.GET['leave_type']
+        title_doc = request.GET['title_doc']
 
-        title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
         # print(title)
 
         if token == unique_token:
@@ -307,7 +309,7 @@ def export_excel_B_one_section_leave(request):
 
             columns = [
                 '', '', '', '','','','','',
-                title,
+                title_doc,
                 '','','','','','','','','','','','','','','','','',
                 '']
 
@@ -357,8 +359,9 @@ def export_excel_B_one_section_status(request):
         token = request.GET['unique']
         query_parameter = request.GET['section']
         query_parameter2 = request.GET['status_type']
+        title_doc = request.GET['title_doc']
 
-        title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
         # print(title)
 
         if token == unique_token:
@@ -374,7 +377,7 @@ def export_excel_B_one_section_status(request):
 
             columns = [
                 '', '', '', '','','','','',
-                title,
+                title_doc,
                 '','','','','','','','','','','','','','','','','',
                 '']
 
@@ -421,8 +424,9 @@ def export_excel_B_one_section(request):
         # print(request.GET['section'] )
         token = request.GET['unique']
         query_parameter = request.GET['section']
+        title_doc = request.GET['title_doc']
 
-        title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
         # print(title)
 
         if token == unique_token:
@@ -438,7 +442,7 @@ def export_excel_B_one_section(request):
 
             columns = [
                 '', '', '', '','','','','',
-                title,
+                title_doc,
                 '','','','','','','','','','','','','','','','','',
                 '']
 
@@ -485,8 +489,9 @@ def export_excel_B_one_leave(request):
         # print(request.GET['leave_type'] )
         token = request.GET['unique']
         query_parameter = request.GET['leave_type']
+        title_doc = request.GET['title_doc']
 
-        title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
         # print(title)
 
         if token == unique_token:
@@ -502,7 +507,7 @@ def export_excel_B_one_leave(request):
 
             columns = [
                 '', '', '', '','','','','',
-                title,
+                title_doc,
                 '','','','','','','','','','','','','','','','','',
                 '']
 
@@ -549,8 +554,9 @@ def export_excel_B_two_leave(request):
         print(request.GET['leave_type'] )
         token = request.GET['unique']
         query_parameter = request.GET['leave_type']
+        title_doc = request.GET['title_doc']
 
-        title = 'BATTALION TWO ' + query_parameter + ' DATA'
+        # title = 'BATTALION TWO ' + query_parameter + ' DATA'
         # print(title)
 
         if token == unique_token:
@@ -566,7 +572,7 @@ def export_excel_B_two_leave(request):
 
             columns = [
                 '', '', '', '','','','','',
-                title,
+                title_doc,
                 '','','','','','','','','','','','','','','','','',
                 '']
 
@@ -613,8 +619,9 @@ def export_excel_B_one_status(request):
         # print(request.GET['status_type'] )
         token = request.GET['unique']
         query_parameter = request.GET['status_type']
+        title_doc = request.GET['title_doc']
 
-        title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
         # print(title)
 
         if token == unique_token:
@@ -630,7 +637,7 @@ def export_excel_B_one_status(request):
 
             columns = [
                 '', '', '', '','','','','',
-                title,
+                title_doc,
                 '','','','','','','','','','','','','','','','','',
                 '']
 
@@ -677,8 +684,9 @@ def export_excel_B_two_status(request):
         print(request.GET['status_type'] )
         token = request.GET['unique']
         query_parameter = request.GET['status_type']
+        title_doc = request.GET['title_doc']
 
-        title = 'BATTALION TWO ' + query_parameter + ' DATA'
+        # title = 'BATTALION TWO ' + query_parameter + ' DATA'
         # print(title)
 
         if token == unique_token:
@@ -694,7 +702,7 @@ def export_excel_B_two_status(request):
 
             columns = [
                 '', '', '', '','','','','',
-                title,
+                title_doc,
                 '','','','','','','','','','','','','','','','','',
                 '']
 
@@ -744,6 +752,7 @@ def export_excel_B_one(request):
         # print(request.method)
         print(request.GET['unique'] )
         token = request.GET['unique']
+        title_doc = request.GET['title_doc']
 
         if token == unique_token:
             response = HttpResponse(content_type='application/ms-excel')
@@ -758,7 +767,7 @@ def export_excel_B_one(request):
 
             columns = [
                 '', '', '', '','','','','',
-                'BATTALION ONE DATA',
+                title_doc,
                 '','','','','','','','','','','','','','','','','',
                 '']
 
