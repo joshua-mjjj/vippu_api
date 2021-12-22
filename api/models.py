@@ -15,6 +15,7 @@ ACCOUNT_TYPES = (
     ("in_charge", "In Charge"),
 )
 
+# For admin only we shall add another status of Undeployed 
 BATTALLION_TYPES = (
     ("battallion_one", "Battallion 1"),
     ("battallion_two", "Battallion 2"),
@@ -73,6 +74,8 @@ TITLE_TYPES = (
     ("N/A", "N/A")
 )
 
+# For admin only we shall add another status of Undeployed
+
 STATUS_TYPES = (
     ("Active", "Active"),
     ("Absent", "Absent(AWOL)"),
@@ -86,7 +89,14 @@ STATUS_TYPES = (
     ("On course", "On course"),
     ("On mission", "On mission"),
     ("On leave", "On leave"),
+    ("Interdiction", "Interdiction"),
+    ("Criminal court", "Criminal court(remand / bail)"),
+    ("Displinary court", "Displinary court"),
+    ("Special duty", "Special duty"),
+    ("On police course", "On police course"),
+    ("Undeployed", "Undeployed")
 )
+
 
 SHIFT_TYPES = (
     ("Day", "Day"),
@@ -260,6 +270,8 @@ class Battallion_two(models.Model):
     location = models.CharField(max_length=150)
     on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
     notify_leave = models.BooleanField(default=False)
+    special_duty_start_date = models.DateField(blank=True, null=True) 
+    special_duty_end_date = models.DateField(blank=True, null=True) 
     leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
     leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -302,6 +314,8 @@ class Battallion_one(models.Model):
     location = models.CharField(max_length=150)
     on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
     notify_leave = models.BooleanField(default=False)
+    special_duty_start_date = models.DateField(blank=True, null=True) 
+    special_duty_end_date = models.DateField(blank=True, null=True) 
     leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
     leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
 
@@ -316,3 +330,22 @@ class Battallion_one(models.Model):
 
     def __str__(self):
         return '{}, {}'.format(self.first_name, self.file_number)
+
+
+class Deleted_Employee(models.Model):
+    reason = models.CharField(max_length=32)
+    deletor_name = models.CharField(max_length=32)
+    deletor_file_number = models.CharField(max_length=32)
+    deleted_name = models.CharField(max_length=32)
+    deleted_file_number = models.CharField(max_length=32)
+    battalion = models.CharField(max_length=32, default=None)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Deleted Employee"
+        verbose_name_plural = "Deleted Employees"
+
+    def __str__(self):
+        return '{}, {}'.format(self.deletor_name, self.deleted_name)

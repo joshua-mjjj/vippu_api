@@ -25,13 +25,15 @@ from api.views import (
     BattalionOne_query,
     BattalionTwo_overrall,
     BattalionOne_overrall,
-    BattalionTwo_section_query
+    BattalionTwo_section_query,
+    DeletedEmployeeViewset
 )
 
 
 router = DefaultRouter()
 router.register(r"battallion_two", BattallionTwoViewset, basename="battallion_two")
 router.register(r"battallion_one", BattallionOneViewset, basename="battallion_one")
+router.register(r"deleted_employees", DeletedEmployeeViewset, basename="deleted_employees")
 
 schema_view = get_swagger_view(title="VIPPU API")
 

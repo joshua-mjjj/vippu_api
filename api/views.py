@@ -92,6 +92,11 @@ class BattallionTwoViewset(viewsets.ModelViewSet):
     serializer_class = BattallionTwoSerializer
     queryset = Battallion_two.objects.all()
 
+class DeletedEmployeeViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = DeletedEmployeeSerializer
+    queryset = Deleted_Employee.objects.all()
+
 class BattallionOneViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = BattallionOneSerializer

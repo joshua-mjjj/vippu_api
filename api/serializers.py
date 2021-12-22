@@ -50,3 +50,8 @@ class BattallionOneSerializer(serializers.ModelSerializer):
         model = Battallion_one
         fields = "__all__"
 
+class DeletedEmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Deleted_Employee
+        fields = "__all__"
+
