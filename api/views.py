@@ -222,7 +222,8 @@ class ChangePasswordApi(GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# @api_view(('GET',))      
+
+    
 def export_excel(request):
     try: 
         # to implement some security here 
@@ -257,7 +258,7 @@ def export_excel(request):
 
             columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS','ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL',
             'BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
-                'LEAVE END DATE']
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
 
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
@@ -270,7 +271,7 @@ def export_excel(request):
 
             rows = Battallion_two.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin', 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch',
                 'department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
-                'leave_end_date')
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
                 row_num += 1
@@ -327,7 +328,7 @@ def export_excel_B_one_section_leave(request):
 
             columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
                 'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
-                'LEAVE END DATE']
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
 
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
@@ -336,7 +337,7 @@ def export_excel_B_one_section_leave(request):
             
             rows = Battallion_one.objects.filter(section=query_parameter, on_leave=query_parameter2).values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
-                'leave_end_date')
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
                 row_num += 1
@@ -395,7 +396,7 @@ def export_excel_B_one_section_status(request):
 
             columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
                 'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
-                'LEAVE END DATE']
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
 
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
@@ -404,7 +405,7 @@ def export_excel_B_one_section_status(request):
             
             rows = Battallion_one.objects.filter(section=query_parameter, status=query_parameter2).values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
-                'leave_end_date')
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
                 row_num += 1
@@ -460,7 +461,7 @@ def export_excel_B_one_section(request):
 
             columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
                 'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
-                'LEAVE END DATE']
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
 
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
@@ -469,7 +470,7 @@ def export_excel_B_one_section(request):
             
             rows = Battallion_one.objects.filter(section=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
-                'leave_end_date')
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
                 row_num += 1
@@ -525,7 +526,7 @@ def export_excel_B_one_leave(request):
 
             columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
                 'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
-                'LEAVE END DATE']
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
 
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
@@ -534,7 +535,7 @@ def export_excel_B_one_leave(request):
             
             rows = Battallion_one.objects.filter(on_leave=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
-                'leave_end_date')
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
                 row_num += 1
@@ -590,7 +591,7 @@ def export_excel_B_two_leave(request):
 
             columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
                 'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
-                'LEAVE END DATE']
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
 
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
@@ -599,7 +600,7 @@ def export_excel_B_two_leave(request):
             
             rows = Battallion_two.objects.filter(on_leave=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
-                'leave_end_date')
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
                 row_num += 1
@@ -655,7 +656,7 @@ def export_excel_B_one_status(request):
 
             columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
                 'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
-                'LEAVE END DATE']
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
 
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
@@ -664,7 +665,7 @@ def export_excel_B_one_status(request):
             
             rows = Battallion_one.objects.filter(status=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
-                'leave_end_date')
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
                 row_num += 1
@@ -721,7 +722,7 @@ def export_excel_B_two_status(request):
             columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
                 'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT',
                 'DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
-                'LEAVE END DATE']
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
 
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
@@ -731,7 +732,7 @@ def export_excel_B_two_status(request):
             rows = Battallion_two.objects.filter(status=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift',
                 'date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
-                'leave_end_date')
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
                 row_num += 1
@@ -786,7 +787,7 @@ def export_excel_B_one(request):
             columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
                 'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT',
                 'TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
-                'LEAVE END DATE']
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
 
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num], font_style)
@@ -800,7 +801,7 @@ def export_excel_B_one(request):
             rows = Battallion_one.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department',
                 'title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
-                'leave_end_date')
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
                 row_num += 1
