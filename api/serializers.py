@@ -38,6 +38,12 @@ class ChangePasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(max_length=120)
 
 
+# BATTALLION THREE SERIALIZER 
+class BattallionThreeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Battallion_three
+        fields = "__all__"
+
 # BATTALLION TWO SERIALIZER 
 class BattallionTwoSerializer(serializers.ModelSerializer):
     class Meta:

@@ -55,6 +55,22 @@ BATTALLION_TWO_DEPARTMENT_TYPES = (
     ("Administration", "Administration")
 )
 
+BATTALLION_THREE_DEPARTMENT_TYPES = (
+    ("Anti-corruption & War Crime division", "Anti-corruption & War Crime division"),
+    ("Buganda Road Court", "Buganda Road Court"),
+    ("Commercial Court", "Commercial Court"),
+    ("Supreme Court", "Supreme Court"),
+    ("High Court Offices Kampala", "High Court Offices Kampala"),
+    ("High Court Residence", "High Court Residence"),
+    ("Family Court Division Makindye", "Family Court Division Makindye"),
+    ("Court of Appeal", "Court of Appeal"),
+    ("Residence of Justice of Court Appeal", "Residence of Justice of Court Appeal"),
+    ("DPP Office", "DPP Office"),
+    ("IGG", "IGG"),
+    ("Police Establishment", "Police Establishment")
+)
+
+
 BATTALLION_ONE_DEPARTMENT_TYPES = (
     ("UN Agencies", "UN Agencies"),
     ("Administration", "Administration"),
@@ -240,6 +256,51 @@ def generate_password_reset_code():
 #     default="pending",
 # )
 
+# BATTALLION 3 TABLE MODEL 
+class Battallion_three(models.Model):
+    first_name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+    nin = models.CharField(max_length=32)
+    ipps = models.CharField(max_length=32)
+    file_number = models.CharField(max_length=32, unique=True) #, blank=True, null=True
+    battallion = models.CharField(max_length=32)
+    account_number = models.CharField(max_length=32, blank=True, null=True)
+    contact = models.CharField(max_length=32, blank=True, null=True)
+    tin_number = models.CharField(max_length=32, blank=True, null=True)
+    sex = models.CharField(max_length=32, choices=GENDER_TYPES)
+    rank = models.CharField(max_length=32, choices=RANK_TYPES)
+    education_level = models.CharField(max_length=32, choices=EDUCATION_TYPES)
+    other_education_level = models.CharField(max_length=32, blank=True, null=True) # Gives us an extra field incase of OTHER
+    bank = models.CharField(max_length=32, blank=True, null=True)
+    branch = models.CharField(max_length=32, blank=True, null=True)
+    department = models.CharField(max_length=150, choices=BATTALLION_THREE_DEPARTMENT_TYPES)
+    title = models.CharField(max_length=32, choices=TITLE_TYPES)
+    status = models.CharField(max_length=32, choices=STATUS_TYPES)
+    shift = models.CharField(max_length=32, choices=SHIFT_TYPES)
+    date_of_enlistment = models.DateField(blank=True, null=True)
+    date_of_transfer = models.DateField(blank=True, null=True)
+    date_of_promotion = models.DateField(blank=True, null=True)
+    date_of_birth = models.DateField(blank=False, null=False)
+    armed = models.CharField(max_length=32, choices=ARMED_TYPES)
+    section = models.CharField(max_length=150)
+    location = models.CharField(max_length=150)
+    on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
+    notify_leave = models.BooleanField(default=False)
+    notify_special_duty = models.BooleanField(default=False)
+    special_duty_start_date = models.DateField(blank=True, null=True) 
+    special_duty_end_date = models.DateField(blank=True, null=True) 
+    leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+    leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Battallion Three"
+        verbose_name_plural = "Battallion Three"
+
+    def __str__(self):
+        return '{}, {}'.format(self.first_name, self.file_number)
+
 # BATTALLION 2 TABLE MODEL 
 class Battallion_two(models.Model):
     first_name = models.CharField(max_length=32)
@@ -270,6 +331,7 @@ class Battallion_two(models.Model):
     location = models.CharField(max_length=150)
     on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
     notify_leave = models.BooleanField(default=False)
+    notify_special_duty = models.BooleanField(default=False)
     special_duty_start_date = models.DateField(blank=True, null=True) 
     special_duty_end_date = models.DateField(blank=True, null=True) 
     leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
@@ -285,7 +347,7 @@ class Battallion_two(models.Model):
         return '{}, {}'.format(self.first_name, self.file_number)
 
 
-# BATTALLION 2 TABLE MODEL 
+# BATTALLION 1 TABLE MODEL 
 class Battallion_one(models.Model):
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
@@ -314,6 +376,7 @@ class Battallion_one(models.Model):
     location = models.CharField(max_length=150)
     on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
     notify_leave = models.BooleanField(default=False)
+    notify_special_duty = models.BooleanField(default=False)
     special_duty_start_date = models.DateField(blank=True, null=True) 
     special_duty_end_date = models.DateField(blank=True, null=True) 
     leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 

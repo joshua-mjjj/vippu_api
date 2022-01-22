@@ -7,7 +7,8 @@ from api.models import (
     User,
     Battallion_two,
     Battallion_one,
-    Deleted_Employee
+    Deleted_Employee,
+    Battallion_three
 )
 
 admin.site.site_header = "VIPPU"
@@ -16,3 +17,4 @@ admin.site.register(User)
 admin.site.register(Battallion_two)
 admin.site.register(Battallion_one)
 admin.site.register(Deleted_Employee)
+admin.site.register(Battallion_three)
