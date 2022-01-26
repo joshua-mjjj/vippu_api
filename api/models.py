@@ -56,7 +56,7 @@ BATTALLION_TWO_DEPARTMENT_TYPES = (
 )
 
 BATTALLION_THREE_DEPARTMENT_TYPES = (
-    ("Anti-corruption & War Crime division", "Anti-corruption & War Crime division"),
+    ("Anti-corruption and War Crime division", "Anti-corruption and War Crime division"),
     ("Buganda Road Court", "Buganda Road Court"),
     ("Commercial Court", "Commercial Court"),
     ("Supreme Court", "Supreme Court"),
@@ -147,6 +147,23 @@ EDUCATION_TYPES = (
     ("Other", "OTHER")
 )
 
+# Used in Battalion 3
+DEPARTMENT_TYPES = (
+    ("Anti-corruption and War Crime division", "Anti-corruption and War Crime division"),
+    ("Buganda Road Court", "Buganda Road Court"),
+    ("Commercial court", "Commercial court"),
+    ("Supreme Court", "Supreme Court"),
+    ("High Court Offices Kampala", "High Court Offices Kampala"),
+    ("High Court Residence", "High Court Residence"),
+    ("Family Court Division Makindye", "Family Court Division Makindye"),
+    ("Court of Appeal", "Court of Appeal"),
+    ("Residence of Justice of Court Appeal", "Residence of Justice of Court Appeal"),
+    ("DPP Office", "DPP Office"),
+    ("IGG", "IGG"),
+    ("Police Establishment", "Police Establishment"),
+)
+
+# Used in Battalion 1
 SECTION_TYPES = (
     ("UNDP Head Office", "UNDP Head Office"),
     ("UN Women", "UN Women"),
@@ -213,8 +230,8 @@ class User(AbstractUser):
     account_type = models.CharField(max_length=32, choices=ACCOUNT_TYPES)
     battallion = models.CharField(max_length=32, choices=BATTALLION_TYPES)
     top_level_incharge = models.BooleanField(default=False) # Has access to the entire Battallion
-    lower_level_incharge = models.BooleanField(default=False) # Has access to either Department or section in the Battallion they belong to
-    department = models.CharField(max_length=32, blank=True, null=True) # Very Long choise field
+    lower_level_incharge = models.BooleanField(default=False, help_text="Please don't forget to assign this user a Departement or Section if he or she is an In Charge ") # Has access to either Department or section in the Battallion they belong to
+    department = models.CharField(max_length=150, choices=DEPARTMENT_TYPES, blank=True, null=True) # Choice field
     section = models.CharField(max_length=150, choices=SECTION_TYPES, blank=True, null=True) # Very Long choise field
 
     phone_number = models.CharField(max_length=50, blank=True) # null=True
@@ -396,7 +413,7 @@ class Battallion_one(models.Model):
 
 
 class Deleted_Employee(models.Model):
-    reason = models.CharField(max_length=32)
+    reason = models.CharField(max_length=200)
     deletor_name = models.CharField(max_length=32)
     deletor_file_number = models.CharField(max_length=32)
     deleted_name = models.CharField(max_length=32)
