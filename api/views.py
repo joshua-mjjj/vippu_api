@@ -126,6 +126,7 @@ class BattalionThree_overrall(GenericAPIView):
         query_parameter_10 = "DPP Office"
         query_parameter_11 = "IGG"
         query_parameter_12 = "Police Establishment"
+        query_parameter_13 = "AOG"
 
         total = len(Battallion_three.objects.all())
         corruption = len(Battallion_three.objects.filter(department=query_parameter_1))
@@ -140,6 +141,7 @@ class BattalionThree_overrall(GenericAPIView):
         dpp_office = len(Battallion_three.objects.filter(department=query_parameter_10))
         igg = len(Battallion_three.objects.filter(department=query_parameter_11))
         police_establishment = len(Battallion_three.objects.filter(department=query_parameter_12))
+        aog = len(Battallion_three.objects.filter(department=query_parameter_13))
 
         summary_object = {
             "total": total,
@@ -154,6 +156,7 @@ class BattalionThree_overrall(GenericAPIView):
             "residence_of_justice": residence_of_justice,
             "dpp_office": dpp_office,
             "igg": igg,
+            "aog": aog,
             "police_establishment": police_establishment
         }
         return Response(summary_object, status=status.HTTP_200_OK)

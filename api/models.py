@@ -67,6 +67,7 @@ BATTALLION_THREE_DEPARTMENT_TYPES = (
     ("Residence of Justice of Court Appeal", "Residence of Justice of Court Appeal"),
     ("DPP Office", "DPP Office"),
     ("IGG", "IGG"),
+    ("AOG", "AOG"),
     ("Police Establishment", "Police Establishment")
 )
 
@@ -160,6 +161,7 @@ DEPARTMENT_TYPES = (
     ("Residence of Justice of Court Appeal", "Residence of Justice of Court Appeal"),
     ("DPP Office", "DPP Office"),
     ("IGG", "IGG"),
+    ("AOG", "AOG"),
     ("Police Establishment", "Police Establishment"),
 )
 
