@@ -37,14 +37,20 @@ class UserType(GenericAPIView):
             user_data = UserSerializer(user, many=False).data
             # print(user_data)
             user_type = user_data["account_type"]
+            commander = user_data["top_level_incharge"]
             if(user_type == 'admin'):
                 return Response({
                     "user_type": "admin",
                     })
             elif(user_type == 'in_charge'):
-                return Response({
-                    "user_type": "in_charge",
-                    })
+                if(commander == True):
+                    return Response({
+                        "user_type": "commander",
+                        })
+                else:
+                    return Response({
+                        "user_type": "in_charge",
+                        })
             else: 
                 return Response({
                     "user_type": "none",
@@ -97,6 +103,15 @@ class BattallionThreeViewset(viewsets.ModelViewSet):
     serializer_class = BattallionThreeSerializer
     queryset = Battallion_three.objects.all()
 
+class BattallionFourViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFourSerializer
+    queryset = Battallion_four.objects.all()
+
+class BattallionFiveViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFiveSerializer
+    queryset = Battallion_five.objects.all()
 
 class DeletedEmployeeViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
@@ -161,6 +176,83 @@ class BattalionThree_overrall(GenericAPIView):
         }
         return Response(summary_object, status=status.HTTP_200_OK)
 
+class BattalionFive_overrall(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFiveSerializer
+
+    def get(self, request):
+        query_parameter_1 = "UCC"
+        query_parameter_2 = "EC"
+        query_parameter_3 = "IRA"
+        query_parameter_4 = "URA"
+        query_parameter_5 = "UNRA"
+        query_parameter_6 = "NPA"
+        query_parameter_7 = "ULC"
+        query_parameter_8 = "PSC"
+        query_parameter_9 = "NSSF"
+        query_parameter_10 = "KCCA"
+        query_parameter_11 = "SENIOR CITIZENS"
+        query_parameter_12 = "JSC"
+        query_parameter_13 = "EOC"
+        query_parameter_14 = "Administration"
+
+        total = len(Battallion_five.objects.all())
+        ucc = len(Battallion_five.objects.filter(department=query_parameter_1))
+        ec = len(Battallion_five.objects.filter(department=query_parameter_2))
+        ira = len(Battallion_five.objects.filter(department=query_parameter_3))
+        ura = len(Battallion_five.objects.filter(department=query_parameter_4))
+        unra = len(Battallion_five.objects.filter(department=query_parameter_5))
+        npa = len(Battallion_five.objects.filter(department=query_parameter_6))
+        ulc = len(Battallion_five.objects.filter(department=query_parameter_7))
+        psc = len(Battallion_five.objects.filter(department=query_parameter_8))
+        nssf = len(Battallion_five.objects.filter(department=query_parameter_9))
+        kcca = len(Battallion_five.objects.filter(department=query_parameter_10))
+        senior_citizens = len(Battallion_five.objects.filter(department=query_parameter_11))
+        jsc = len(Battallion_five.objects.filter(department=query_parameter_12))
+        eoc = len(Battallion_five.objects.filter(department=query_parameter_13))
+        administration = len(Battallion_five.objects.filter(department=query_parameter_14))
+
+        summary_object = {
+            "total": total,
+            "ucc": ucc,
+            "ec": ec,
+            "ira": ira,
+            "ura": ura,
+            "unra": unra,
+            "npa": npa,
+            "ulc": ulc,
+            "psc": psc,
+            "nssf": nssf,
+            "kcca": kcca,
+            "senior_citizens": senior_citizens,
+            "jsc": jsc,
+            "eoc": eoc,
+            "administration": administration
+        }
+        return Response(summary_object, status=status.HTTP_200_OK)
+
+class BattalionFour_overrall(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFourSerializer
+
+    def get(self, request):
+        query_parameter_1 = "Body guard"
+        query_parameter_2 = "Crew Commander"
+        query_parameter_3 = "Crew"
+
+        total = len(Battallion_four.objects.all())
+        body_gaurd = len(Battallion_four.objects.filter(department=query_parameter_1))
+        crew_commander = len(Battallion_four.objects.filter(department=query_parameter_2))
+        crew = len(Battallion_four.objects.filter(department=query_parameter_3))
+
+        summary_object = {
+            "total": total,
+            "body_gaurd": body_gaurd,
+            "crew_commander": crew_commander,
+            "crew":  crew
+        }
+        return Response(summary_object, status=status.HTTP_200_OK)
+
 class BattalionTwo_overrall(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = BattallionTwoSerializer
@@ -168,8 +260,8 @@ class BattalionTwo_overrall(GenericAPIView):
     def get(self, request):
         query_parameter_1 = "Embassy"
         query_parameter_2 = "Consulate"
-        query_parameter_3 = "High commission"
-        query_parameter_4 = "Other diplomats"
+        query_parameter_3 = "High Commission"
+        query_parameter_4 = "Other Diplomats"
         query_parameter_5 = "Administration"
 
         total = len(Battallion_two.objects.all())
@@ -243,12 +335,57 @@ class BattalionThree_department_query(GenericAPIView):
             content = {"error": "Department doesn't exit in the database"}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
+class BattalionTwo_department_query(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionTwoSerializer
+
+    def post(self, request):
+        try:
+            # print(request.data['department'])
+            query_parameter = request.data['department']
+            query = Battallion_two.objects.filter(department=query_parameter)
+            serializer = BattallionTwoSerializer(query, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            content = {"error": "Department doesn't exit in the database"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+class BattalionFive_department_query(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFiveSerializer
+
+    def post(self, request):
+        try:
+            # print(request.data['department'])
+            query_parameter = request.data['department']
+            query = Battallion_five.objects.filter(department=query_parameter)
+            serializer = BattallionFiveSerializer(query, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            content = {"error": "Department doesn't exit in the database"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+class BattalionFour_department_query(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFourSerializer
+
+    def post(self, request):
+        try:
+            # print(request.data['department'])
+            query_parameter = request.data['department']
+            query = Battallion_four.objects.filter(department=query_parameter)
+            serializer = BattallionFourSerializer(query, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            content = {"error": "Department doesn't exit in the database"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
 class BattalionTwo_query(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = BattallionTwoSerializer
 
     def post(self, request):
-        print(request.data['file_number'])
+        # print(request.data['file_number'])
         query_parameter = request.data['file_number']
         try:
             query = Battallion_two.objects.get(file_number=query_parameter)
@@ -263,7 +400,7 @@ class BattalionOne_query(GenericAPIView):
     serializer_class = BattallionOneSerializer
 
     def post(self, request):
-        print(request.data['file_number'])
+        # print(request.data['file_number'])
         query_parameter = request.data['file_number']
         try:
             query = Battallion_one.objects.get(file_number=query_parameter)
@@ -278,11 +415,42 @@ class BattalionThree_query(GenericAPIView):
     serializer_class = BattallionThreeSerializer
 
     def post(self, request):
-        print(request.data['file_number'])
+        # print(request.data['file_number'])
         query_parameter = request.data['file_number']
         try:
             query = Battallion_three.objects.get(file_number=query_parameter)
             serializer = BattallionThreeSerializer(query, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            content = {"error": "Employee with this file number doesn't exit in the database"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BattalionFive_query(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFiveSerializer
+
+    def post(self, request):
+        # print(request.data['file_number'])
+        query_parameter = request.data['file_number']
+        try:
+            query = Battallion_five.objects.get(file_number=query_parameter)
+            serializer = BattallionFiveSerializer(query, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            content = {"error": "Employee with this file number doesn't exit in the database"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+class BattalionFour_query(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFourSerializer
+
+    def post(self, request):
+        # print(request.data['file_number'])
+        query_parameter = request.data['file_number']
+        try:
+            query = Battallion_four.objects.get(file_number=query_parameter)
+            serializer = BattallionFourSerializer(query, many=False)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             content = {"error": "Employee with this file number doesn't exit in the database"}
@@ -361,6 +529,140 @@ def export_excel(request):
 
             rows = Battallion_two.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin', 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch',
                 'department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+
+def export_excel_B_five_department_leave(request):
+    try: 
+        # to implement some security here 
+        # print(request.method)
+        # print(request.GET['leave_type'] )
+        # print(request.GET['department'] )
+        token = request.GET['unique']
+        query_parameter = request.GET['department']
+        query_parameter2 = request.GET['leave_type']
+        title_doc = request.GET['title_doc']
+
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # print(title)
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Five')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_five.objects.filter(department=query_parameter, on_leave=query_parameter2).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+
+def export_excel_B_four_department_leave(request):
+    try: 
+        # to implement some security here 
+        # print(request.method)
+        # print(request.GET['leave_type'] )
+        # print(request.GET['department'] )
+        token = request.GET['unique']
+        query_parameter = request.GET['department']
+        query_parameter2 = request.GET['leave_type']
+        title_doc = request.GET['title_doc']
+
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # print(title)
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Four')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_four.objects.filter(department=query_parameter, on_leave=query_parameter2).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
                 'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
             for row in rows:
@@ -512,7 +814,139 @@ def export_excel_B_one_section_leave(request):
         # print("You are not authorized to carry out this operation.")
         return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
 
-  
+
+def export_excel_B_five_department_status(request):
+    try: 
+        # to implement some security here 
+        # print(request.method)
+        # print(request.GET['status_type'] )
+        # print(request.GET['department'] )
+        token = request.GET['unique']
+        query_parameter = request.GET['department']
+        query_parameter2 = request.GET['status_type']
+        title_doc = request.GET['title_doc']
+
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # print(title)
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Five')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_five.objects.filter(department=query_parameter, status=query_parameter2).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+def export_excel_B_four_department_status(request):
+    try: 
+        # to implement some security here 
+        # print(request.method)
+        # print(request.GET['status_type'] )
+        # print(request.GET['department'] )
+        token = request.GET['unique']
+        query_parameter = request.GET['department']
+        query_parameter2 = request.GET['status_type']
+        title_doc = request.GET['title_doc']
+
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # print(title)
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Four')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_four.objects.filter(department=query_parameter, status=query_parameter2).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
 def export_excel_B_three_department_status(request):
     try: 
         # to implement some security here 
@@ -628,6 +1062,134 @@ def export_excel_B_one_section_status(request):
             font_style = xlwt.XFStyle()
             
             rows = Battallion_one.objects.filter(section=query_parameter, status=query_parameter2).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+def export_excel_B_five_departmnt(request):
+    try: 
+        # to implement some security here 
+        # print(request.method)
+        # print(request.GET['department'])
+        token = request.GET['unique']
+        query_parameter = request.GET['department']
+        title_doc = request.GET['title_doc']
+
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # print(title)
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Five')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_five.objects.filter(department=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+def export_excel_B_four_departmnt(request):
+    try: 
+        # to implement some security here 
+        # print(request.method)
+        # print(request.GET['department'])
+        token = request.GET['unique']
+        query_parameter = request.GET['department']
+        title_doc = request.GET['title_doc']
+
+        # title = 'BATTALION ONE ' + query_parameter + ' DATA'
+        # print(title)
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Four')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_four.objects.filter(department=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
                 'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
@@ -774,6 +1336,128 @@ def export_excel_B_one_section(request):
     except: 
         # print("You are not authorized to carry out this operation.")
         return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+
+def export_excel_B_five_leave(request):
+    try: 
+
+        token = request.GET['unique']
+        query_parameter = request.GET['leave_type']
+        title_doc = request.GET['title_doc']
+
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Five')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_five.objects.filter(on_leave=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+def export_excel_B_four_leave(request):
+    try: 
+
+        token = request.GET['unique']
+        query_parameter = request.GET['leave_type']
+        title_doc = request.GET['title_doc']
+
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Four')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_four.objects.filter(on_leave=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
 
 def export_excel_B_three_leave(request):
     try: 
@@ -947,6 +1631,123 @@ def export_excel_B_two_leave(request):
             font_style = xlwt.XFStyle()
             
             rows = Battallion_two.objects.filter(on_leave=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+
+def export_excel_B_five_status(request):
+    try: 
+        token = request.GET['unique']
+        query_parameter = request.GET['status_type']
+        title_doc = request.GET['title_doc']
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Five')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_five.objects.filter(status=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+def export_excel_B_four_status(request):
+    try: 
+        token = request.GET['unique']
+        query_parameter = request.GET['status_type']
+        title_doc = request.GET['title_doc']
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Four')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT','TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            rows = Battallion_four.objects.filter(status=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
                 'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department','title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
                 'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
 
@@ -1156,6 +1957,137 @@ def export_excel_B_two_status(request):
         return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
 
 
+def export_excel_B_five(request):
+    try: 
+        # to implement some security here 
+        # print(request.method)
+        # print(request.GET['unique'] )
+        token = request.GET['unique']
+        title_doc = request.GET['title_doc']
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Five')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT',
+                'TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            # for reports with specific Sections
+            # query_parameter = "UN Women"
+            # rows = Battallion_one.objects.filter(section=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
+
+            rows = Battallion_five.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department',
+                'title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+
+def export_excel_B_four(request):
+    try: 
+        # to implement some security here 
+        # print(request.method)
+        # print(request.GET['unique'] )
+        token = request.GET['unique']
+        title_doc = request.GET['title_doc']
+
+        if token == unique_token:
+            response = HttpResponse(content_type='application/ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=Expenses' + \
+                 str(datetime.datetime.now())+'.xls'
+            wb = xlwt.Workbook(encoding='utf-8')
+            ws = wb.add_sheet('Battalion Four')
+
+            row_num = 1
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = [
+                '', '', '', '','','','','',
+                title_doc,
+                '','','','','','','','','','','','','','','','','',
+                '']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            row_num = 3
+            font_style = xlwt.XFStyle()
+            font_style.font.bold = True
+
+            columns = ['FILE NAME', 'LAST NAME', 'FILE NUMBER', 'NIN','IPPS',
+                'ACCOUNT NUMBER','TEL CONTACT','SEX','RANK','EDUCATION LEVEL','OTHER EDUCATION LEVEL','BANK','BRANCH','DEPARTEMENT',
+                'TITLE','STATUS','SHIFT','DATE OF ENLISTMENT','DATE OF TRANSFER','DATE OF PROMOTION','DATE OF BIRTH','ARMED','SECTION','LOCATION','ON LEAVE','LEAVE START DATE',
+                'LEAVE END DATE', 'SPECIAL DUTY START DATE', 'SPECIAL DUTY END DATE']
+
+            for col_num in range(len(columns)):
+                ws.write(row_num, col_num, columns[col_num], font_style)
+
+            font_style = xlwt.XFStyle()
+            
+            # for reports with specific Sections
+            # query_parameter = "UN Women"
+            # rows = Battallion_one.objects.filter(section=query_parameter).values_list('first_name', 'last_name', 'file_number', 'nin', 
+
+            rows = Battallion_four.objects.filter().values_list('first_name', 'last_name', 'file_number', 'nin', 
+                'ipps','account_number','contact','sex','rank','education_level','other_education_level','bank','branch','department',
+                'title','status','shift','date_of_enlistment','date_of_transfer','date_of_promotion','date_of_birth','armed','section','location','on_leave','leave_start_date',
+                'leave_end_date', 'special_duty_start_date', 'special_duty_end_date')
+
+            for row in rows:
+                row_num += 1
+
+                for col_num in range(len(row)):
+                    ws.write(row_num, col_num, str(row[col_num]), font_style)
+            wb.save(response)
+
+            return response
+        else: 
+            # print("You are not authorized to carry out this operation.")
+            return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
+    except: 
+        # print("You are not authorized to carry out this operation.")
+        return JsonResponse({"detail": "You are not authorized to carry out this operation."}, status=401)
 
 def export_excel_B_three(request):
     try: 

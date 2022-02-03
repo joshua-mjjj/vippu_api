@@ -50,8 +50,31 @@ RANK_TYPES = (
 BATTALLION_TWO_DEPARTMENT_TYPES = (
     ("Embassy", "Embassy"),
     ("Consulate", "Consulate"),
-    ("High commission", "High commission"),
-    ("Other diplomats", "Other diplomats"),
+    ("High Commission", "High Commission"),
+    ("Other Diplomats", "Other Diplomats"),
+    ("Administration", "Administration")
+)
+
+BATTALLION_FOUR_DEPARTMENT_TYPES = (
+    ("Body guard", "Body guard"),
+    ("Crew Commander", "Crew Commander"),
+    ("Crew", "Crew")
+)
+
+BATTALLION_FIVE_DEPARTMENT_TYPES = (
+    ("UCC", "UCC"),
+    ("EC", "EC"),
+    ("IRA", "IRA"),
+    ("URA", "URA"),
+    ("UNRA", "UNRA"),
+    ("NPA", "NPA"),
+    ("ULC", "ULC"),
+    ("PSC", "PSC"),
+    ("NSSF", "NSSF"),
+    ("KCCA", "KCCA"),
+    ("SENIOR CITIZENS", "SENIOR CITIZENS"),
+    ("JSC", "JSC"),
+    ("EOC", "EOC"),
     ("Administration", "Administration")
 )
 
@@ -70,7 +93,6 @@ BATTALLION_THREE_DEPARTMENT_TYPES = (
     ("AOG", "AOG"),
     ("Police Establishment", "Police Establishment")
 )
-
 
 BATTALLION_ONE_DEPARTMENT_TYPES = (
     ("UN Agencies", "UN Agencies"),
@@ -150,6 +172,7 @@ EDUCATION_TYPES = (
 
 # Used in Battalion 3
 DEPARTMENT_TYPES = (
+    # Battalion 3
     ("Anti-corruption and War Crime division", "Anti-corruption and War Crime division"),
     ("Buganda Road Court", "Buganda Road Court"),
     ("Commercial court", "Commercial court"),
@@ -163,6 +186,27 @@ DEPARTMENT_TYPES = (
     ("IGG", "IGG"),
     ("AOG", "AOG"),
     ("Police Establishment", "Police Establishment"),
+
+    # Battalion 4
+    ("Body guard", "Body guard"),
+    ("Crew Commander", "Crew Commander"),
+    ("Crew", "Crew"),
+
+    # Battalion 5
+    ("UCC", "UCC"),
+    ("EC", "EC"),
+    ("IRA", "IRA"),
+    ("URA", "URA"),
+    ("UNRA", "UNRA"),
+    ("NPA", "NPA"),
+    ("ULC", "ULC"),
+    ("PSC", "PSC"),
+    ("NSSF", "NSSF"),
+    ("KCCA", "KCCA"),
+    ("SENIOR CITIZENS", "SENIOR CITIZENS"),
+    ("JSC", "JSC"),
+    ("EOC", "EOC"),
+    ("Administration", "Administration")
 )
 
 # Used in Battalion 1
@@ -274,6 +318,96 @@ def generate_password_reset_code():
 #     ],
 #     default="pending",
 # )
+
+# BATTALLION 5 TABLE MODEL 
+class Battallion_five(models.Model):
+    first_name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+    nin = models.CharField(max_length=32)
+    ipps = models.CharField(max_length=32)
+    file_number = models.CharField(max_length=32, unique=True) #, blank=True, null=True
+    battallion = models.CharField(max_length=32)
+    account_number = models.CharField(max_length=32, blank=True, null=True)
+    contact = models.CharField(max_length=32, blank=True, null=True)
+    tin_number = models.CharField(max_length=32, blank=True, null=True)
+    sex = models.CharField(max_length=32, choices=GENDER_TYPES)
+    rank = models.CharField(max_length=32, choices=RANK_TYPES)
+    education_level = models.CharField(max_length=32, choices=EDUCATION_TYPES)
+    other_education_level = models.CharField(max_length=32, blank=True, null=True) # Gives us an extra field incase of OTHER
+    bank = models.CharField(max_length=32, blank=True, null=True)
+    branch = models.CharField(max_length=32, blank=True, null=True)
+    department = models.CharField(max_length=150, choices=BATTALLION_FIVE_DEPARTMENT_TYPES)
+    title = models.CharField(max_length=32, choices=TITLE_TYPES)
+    status = models.CharField(max_length=32, choices=STATUS_TYPES)
+    shift = models.CharField(max_length=32, choices=SHIFT_TYPES)
+    date_of_enlistment = models.DateField(blank=True, null=True)
+    date_of_transfer = models.DateField(blank=True, null=True)
+    date_of_promotion = models.DateField(blank=True, null=True)
+    date_of_birth = models.DateField(blank=False, null=False)
+    armed = models.CharField(max_length=32, choices=ARMED_TYPES)
+    section = models.CharField(max_length=150)
+    location = models.CharField(max_length=150)
+    on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
+    notify_leave = models.BooleanField(default=False)
+    notify_special_duty = models.BooleanField(default=False)
+    special_duty_start_date = models.DateField(blank=True, null=True) 
+    special_duty_end_date = models.DateField(blank=True, null=True) 
+    leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+    leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Battallion Five"
+        verbose_name_plural = "Battallion Five"
+
+    def __str__(self):
+        return '{}, {}'.format(self.first_name, self.file_number)
+
+# BATTALLION 4 TABLE MODEL 
+class Battallion_four(models.Model):
+    first_name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+    nin = models.CharField(max_length=32)
+    ipps = models.CharField(max_length=32)
+    file_number = models.CharField(max_length=32, unique=True) #, blank=True, null=True
+    battallion = models.CharField(max_length=32)
+    account_number = models.CharField(max_length=32, blank=True, null=True)
+    contact = models.CharField(max_length=32, blank=True, null=True)
+    tin_number = models.CharField(max_length=32, blank=True, null=True)
+    sex = models.CharField(max_length=32, choices=GENDER_TYPES)
+    rank = models.CharField(max_length=32, choices=RANK_TYPES)
+    education_level = models.CharField(max_length=32, choices=EDUCATION_TYPES)
+    other_education_level = models.CharField(max_length=32, blank=True, null=True) # Gives us an extra field incase of OTHER
+    bank = models.CharField(max_length=32, blank=True, null=True)
+    branch = models.CharField(max_length=32, blank=True, null=True)
+    department = models.CharField(max_length=150, choices=BATTALLION_FOUR_DEPARTMENT_TYPES)
+    title = models.CharField(max_length=32, choices=TITLE_TYPES)
+    status = models.CharField(max_length=32, choices=STATUS_TYPES)
+    shift = models.CharField(max_length=32, choices=SHIFT_TYPES)
+    date_of_enlistment = models.DateField(blank=True, null=True)
+    date_of_transfer = models.DateField(blank=True, null=True)
+    date_of_promotion = models.DateField(blank=True, null=True)
+    date_of_birth = models.DateField(blank=False, null=False)
+    armed = models.CharField(max_length=32, choices=ARMED_TYPES)
+    section = models.CharField(max_length=150)
+    location = models.CharField(max_length=150)
+    on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
+    notify_leave = models.BooleanField(default=False)
+    notify_special_duty = models.BooleanField(default=False)
+    special_duty_start_date = models.DateField(blank=True, null=True) 
+    special_duty_end_date = models.DateField(blank=True, null=True) 
+    leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+    leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Battallion Four"
+        verbose_name_plural = "Battallion Four"
+
+    def __str__(self):
+        return '{}, {}'.format(self.first_name, self.file_number)
 
 # BATTALLION 3 TABLE MODEL 
 class Battallion_three(models.Model):
