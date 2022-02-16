@@ -61,6 +61,42 @@ BATTALLION_FOUR_DEPARTMENT_TYPES = (
     ("Crew", "Crew")
 )
 
+BATTALLION_SIX_DEPARTMENT_TYPES = (
+    ("Administration", "Administration"),
+    ("Ministry for Presidency", "Ministry for Presidency"),
+    ("Ministry of Science, Technology and Innovation", "Ministry of Science, Technology and Innovation"),
+    ("Ministry of Water and Environment", "Ministry of Water and Environment"),
+    ("Ministry for East African Affairs", "Ministry for East African Affairs"),
+    ("Ministry of Internal Affairs", "Ministry of Internal Affairs"),
+    ("Ministry of Works and Transport", "Ministry of Works and Transport"),
+    ("Office of the Prime Minister", "Office of the Prime Minister"),
+    ("Ministry of Finance", "Ministry of Finance"),
+    ("Ministry of Health", "Ministry of Health"),
+    ("Ministry of Gender, Labor and Social Development", "Ministry of Gender, Labor and Social Development"),
+    ("Ministry of Lands, Housing and Urban Development", "Ministry of Lands, Housing and Urban Development"),
+    ("Ministry for Kampala", "Ministry for Kampala"),
+    ("Ministry of ICT and National Guidance", "Ministry of ICT and National Guidance"),
+    ("Ministry of Justice and Constitutional Affairs", "Ministry of Justice and Constitutional Affairs"),
+    ("Ministry of Local Government", "Ministry of Local Government"),
+    ("Ministry for Foreign Affairs", "Ministry for Foreign Affairs"),
+    ("Ministry of Energy", "Ministry of Energy"),
+    ("Ministry of Tourism Wildlife and Antiquities", "Ministry of Tourism Wildlife and Antiquities"),
+    ("Ministry of Trade Industry and Cooperatives", "Ministry of Trade Industry and Cooperatives"),
+    ("Ministry of Education", "Ministry of Education"),
+    ("Ministry of Public Service", "Ministry of Public Service"),
+    ("Ministry of Agriculture Animal Industry and Fisheries", "Ministry of Agriculture Animal Industry and Fisheries"),
+    ("Education Institution", "Education Institution"),
+    ("Religious Leaders", "Religious Leaders"),
+    ("Senior Citizens", "Senior Citizens"),
+    ("Political Leaders", "Political Leaders"),
+    ("Members of Parliament", "Members of Parliament"),
+    ("Business Parks", "Business Parks"),
+    ("UIRI", "UIRI"),
+    ("New Vision", "New Vision"),
+    ("UBC", "UBC")
+)  
+
+
 BATTALLION_FIVE_DEPARTMENT_TYPES = (
     ("UCC", "UCC"),
     ("EC", "EC"),
@@ -206,8 +242,54 @@ DEPARTMENT_TYPES = (
     ("SENIOR CITIZENS", "SENIOR CITIZENS"),
     ("JSC", "JSC"),
     ("EOC", "EOC"),
-    ("Administration", "Administration")
+    ("Administration", "Administration"),
+
+    # Battalion 6 
+    ("Administration", "Administration"),
+    ("Ministry for Presidency", "Ministry for Presidency"),
+    ("Ministry of Science, Technology and Innovation", "Ministry of Science, Technology and Innovation"),
+    ("Ministry of Water and Environment", "Ministry of Water and Environment"),
+    ("Ministry for East African Affairs", "Ministry for East African Affairs"),
+    ("Ministry of Internal Affairs", "Ministry of Internal Affairs"),
+    ("Ministry of Works and Transport", "Ministry of Works and Transport"),
+    ("Office of the Prime Minister", "Office of the Prime Minister"),
+    ("Ministry of Finance", "Ministry of Finance"),
+    ("Ministry of Health", "Ministry of Health"),
+    ("Ministry of Gender, Labor and Social Development", "Ministry of Gender, Labor and Social Development"),
+    ("Ministry of Lands, Housing and Urban Development", "Ministry of Lands, Housing and Urban Development"),
+    ("Ministry for Kampala", "Ministry for Kampala"),
+    ("Ministry of ICT and National Guidance", "Ministry of ICT and National Guidance"),
+    ("Ministry of Justice and Constitutional Affairs", "Ministry of Justice and Constitutional Affairs"),
+    ("Ministry of Local Government", "Ministry of Local Government"),
+    ("Ministry for Foreign Affairs", "Ministry for Foreign Affairs"),
+    ("Ministry of Energy", "Ministry of Energy"),
+    ("Ministry of Tourism Wildlife and Antiquities", "Ministry of Tourism Wildlife and Antiquities"),
+    ("Ministry of Trade Industry and Cooperatives", "Ministry of Trade Industry and Cooperatives"),
+    ("Ministry of Education", "Ministry of Education"),
+    ("Ministry of Public Service", "Ministry of Public Service"),
+    ("Ministry of Agriculture Animal Industry and Fisheries", "Ministry of Agriculture Animal Industry and Fisheries"),
+    ("Education Institution", "Education Institution"),
+    ("Religious Leaders", "Religious Leaders"),
+    ("Senior Citizens", "Senior Citizens"),
+    ("Political Leaders", "Political Leaders"),
+    ("Members of Parliament", "Members of Parliament"),
+    ("Business Parks", "Business Parks"),
+    ("UIRI", "UIRI"),
+    ("New Vision", "New Vision"),
+    ("UBC", "UBC")
+
 )
+
+
+
+
+
+
+
+
+
+
+
 
 # Used in Battalion 1
 SECTION_TYPES = (
@@ -308,16 +390,51 @@ def generate_password_reset_code():
     return binascii.hexlify(os.urandom(20)).decode("utf-8")
 
 
-# background_check_status = models.CharField(
-#     max_length=20,
-#     choices=[
-#         ("pending", "Pending"),
-#         ("started", "Started"),
-#         ("passed", "Passed"),
-#         ("failed", "Failed"),
-#     ],
-#     default="pending",
-# )
+# BATTALLION 6 TABLE MODEL 
+class Battallion_six(models.Model):
+    first_name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+    nin = models.CharField(max_length=32)
+    ipps = models.CharField(max_length=32)
+    file_number = models.CharField(max_length=32, unique=True) #, blank=True, null=True
+    battallion = models.CharField(max_length=32)
+    account_number = models.CharField(max_length=32, blank=True, null=True)
+    contact = models.CharField(max_length=32, blank=True, null=True)
+    tin_number = models.CharField(max_length=32, blank=True, null=True)
+    sex = models.CharField(max_length=32, choices=GENDER_TYPES)
+    rank = models.CharField(max_length=32, choices=RANK_TYPES)
+    education_level = models.CharField(max_length=32, choices=EDUCATION_TYPES)
+    other_education_level = models.CharField(max_length=32, blank=True, null=True) # Gives us an extra field incase of OTHER
+    bank = models.CharField(max_length=32, blank=True, null=True)
+    branch = models.CharField(max_length=32, blank=True, null=True)
+    department = models.CharField(max_length=150, choices=BATTALLION_SIX_DEPARTMENT_TYPES)
+    title = models.CharField(max_length=32, choices=TITLE_TYPES)
+    status = models.CharField(max_length=32, choices=STATUS_TYPES)
+    shift = models.CharField(max_length=32, choices=SHIFT_TYPES)
+    date_of_enlistment = models.DateField(blank=True, null=True)
+    date_of_transfer = models.DateField(blank=True, null=True)
+    date_of_promotion = models.DateField(blank=True, null=True)
+    date_of_birth = models.DateField(blank=False, null=False)
+    armed = models.CharField(max_length=32, choices=ARMED_TYPES)
+    section = models.CharField(max_length=150)
+    location = models.CharField(max_length=150)
+    on_leave = models.CharField(max_length=32, choices=LEAVE_TYPES)
+    notify_leave = models.BooleanField(default=False)
+    notify_special_duty = models.BooleanField(default=False)
+    special_duty_start_date = models.DateField(blank=True, null=True) 
+    special_duty_end_date = models.DateField(blank=True, null=True) 
+    leave_start_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+    leave_end_date = models.DateField(blank=True, null=True) # Gives us an extra field 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Battallion Six"
+        verbose_name_plural = "Battallion Six"
+
+    def __str__(self):
+        return '{}, {}'.format(self.first_name, self.file_number)
+
 
 # BATTALLION 5 TABLE MODEL 
 class Battallion_five(models.Model):
