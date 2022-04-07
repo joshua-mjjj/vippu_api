@@ -93,6 +93,25 @@ class UserProfile(GenericAPIView):
         serializer = UserSerializer(user, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def list(self, request):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def perform_create(self, serializer):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.queryset.get(pk=kwargs.get('pk'))
+        serializer = self.serializer_class(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        
+        serializer.save()
+        return Response(serializer.data)
+
+
 class BattallionTwoViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = BattallionTwoSerializer

@@ -321,6 +321,14 @@ SECTION_TYPES = (
     ("UNDP Arua", "UNDP Arua"),
 )
 
+BATTALLION_ACCESS_TYPES = (
+    ("battallion_one", "Battallion 1"),
+    ("battallion_two", "Battallion 2"),
+    ("battallion_three", "Battallion 3"),
+    ("battallion_four", "Battallion 4"),
+    ("battallion_five", "Battallion 5"),
+    ("battallion_six", "Battallion 6"),
+)
 
 class UserManager(BaseUserManager):
     def _create_user(self, username, password, is_staff, is_superuser, **extra_fields):
@@ -363,6 +371,8 @@ class User(AbstractUser):
     section = models.CharField(max_length=150, choices=SECTION_TYPES, blank=True, null=True) # Very Long choise field
 
     phone_number = models.CharField(max_length=50, blank=True) # null=True
+    admin_request_access = models.BooleanField("admin request access", default=False, blank=True, null=True)
+    admin_request_battalion = models.CharField(max_length=32, choices=BATTALLION_ACCESS_TYPES, blank=True, null=True)
     is_staff = models.BooleanField("staff status", default=False)
     is_active = models.BooleanField("active", default=True)
     created_at = models.DateTimeField(auto_now_add=True)

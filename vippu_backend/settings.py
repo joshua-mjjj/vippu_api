@@ -35,15 +35,16 @@ ADMINS = [
 ]
 
 
-ALLOWED_HOSTS = ["http://localhost:3000", "http://vippu.herokuapp.com", "https://vippu.herokuapp.com"]
+ALLOWED_HOSTS = ["http://localhost:3000", "http://vippu-police.herokuapp.com", "https://vippu-police.herokuapp.com"]
 # ALLOWED_HOSTS = ["*"]
 
 #
 # Usually whitelisted when going for deployment
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "https://vippu-police.herokuapp.com/",
-    "http://vippu-police.herokuapp.com/",
+    "http://localhost:3001",
+    "https://vippu-police.herokuapp.com",
+    "http://vippu-police.herokuapp.com",
     # "https://vippu.herokuapp.com",
     # "http://vippu.herokuapp.com",
 ]

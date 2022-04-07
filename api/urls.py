@@ -8,6 +8,7 @@ from api.views import (
     AccountLoginAPIView,
     SignUp,
     UserProfile,
+    UserViewSet,
     ChangePasswordApi,
     UserType,
     BattallionTwoViewset,
@@ -72,6 +73,7 @@ from api.views import (
 
 
 router = DefaultRouter()
+router.register(r"users", UserViewSet, basename="users")
 router.register(r"battallion_two", BattallionTwoViewset, basename="battallion_two")
 router.register(r"battallion_one", BattallionOneViewset, basename="battallion_one")
 router.register(r"battallion_three", BattallionThreeViewset, basename="battallion_three")
