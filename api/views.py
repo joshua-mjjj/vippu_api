@@ -111,42 +111,233 @@ class UserViewSet(ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
+# def perform_create(self, serializer):
+#     if serializer.is_valid():
+#         product_name = serializer.validated_data['product_name']
+#         product_location = serializer.validated_data['product_location']
 
-class BattallionTwoViewset(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = BattallionTwoSerializer
-    queryset = Battallion_two.objects.all()
+#         if product_name != '':
+#             product_list = Product.objects.filter(
+#                 product_name=product_name, product_location=product_location)
 
-class BattallionThreeViewset(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = BattallionThreeSerializer
-    queryset = Battallion_three.objects.all()
-
-class BattallionFourViewset(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = BattallionFourSerializer
-    queryset = Battallion_four.objects.all()
-
-class BattallionSixViewset(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = BattallionSixSerializer
-    queryset = Battallion_six.objects.all()
-
-class BattallionFiveViewset(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = BattallionFiveSerializer
-    queryset = Battallion_five.objects.all()
-
-class DeletedEmployeeViewset(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    serializer_class = DeletedEmployeeSerializer
-    queryset = Deleted_Employee.objects.all()
+#             if not product_list:
+#                 product = serializer.save()
+#             else:
+#                 product = product_list[0]
+#                 serializer = ProductSerializer(product)
+#             return Response(serializer.data)   
+#         else:
+#             return Response(data={'message': 'Empty product_name'},
+#                         status=status.HTTP_400_BAD_REQUEST)
+#     else:
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class BattallionOneViewset(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     serializer_class = BattallionOneSerializer
     queryset = Battallion_one.objects.all()
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # print(serializer.validated_data['file_number'])
+        instance_file_number = serializer.validated_data['file_number']
+        check_battalion_two = Battallion_two.objects.filter(file_number=instance_file_number)
+        check_battalion_three = Battallion_three.objects.filter(file_number=instance_file_number)
+        check_battalion_four = Battallion_four.objects.filter(file_number=instance_file_number)
+        check_battalion_five = Battallion_five.objects.filter(file_number=instance_file_number)
+        check_battalion_six = Battallion_six.objects.filter(file_number=instance_file_number)
+        if(check_battalion_two.exists() == False and check_battalion_three.exists() == False 
+            and check_battalion_four.exists() == False and check_battalion_five.exists() == False 
+            and check_battalion_six.exists() == False):
+            
+            # print("File number doesn't exist in system")
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            # print("File number exists in system")
+            content = {"file_number_exists": "An employee with this file number already exists in VIPPU, if you need to resolve this, please contact the admin."}
+            headers = self.get_success_headers(serializer.data)
+            return Response(content, status=status.HTTP_400_BAD_REQUEST, headers=headers)
+
+    def perform_create(self, serializer):
+        save_employee = serializer.save()
+        
+
+class BattallionTwoViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionTwoSerializer
+    queryset = Battallion_two.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # print(serializer.validated_data['file_number'])
+        instance_file_number = serializer.validated_data['file_number']
+        check_battalion_one = Battallion_one.objects.filter(file_number=instance_file_number)
+        check_battalion_three = Battallion_three.objects.filter(file_number=instance_file_number)
+        check_battalion_four = Battallion_four.objects.filter(file_number=instance_file_number)
+        check_battalion_five = Battallion_five.objects.filter(file_number=instance_file_number)
+        check_battalion_six = Battallion_six.objects.filter(file_number=instance_file_number)
+        if(check_battalion_one.exists() == False and check_battalion_three.exists() == False 
+            and check_battalion_four.exists() == False and check_battalion_five.exists() == False 
+            and check_battalion_six.exists() == False):
+            
+            # print("File number doesn't exist in system")
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            # print("File number exists in system")
+            content = {"file_number_exists": "An employee with this file number already exists in VIPPU, if you need to resolve this, please contact the admin."}
+            headers = self.get_success_headers(serializer.data)
+            return Response(content, status=status.HTTP_400_BAD_REQUEST, headers=headers)
+
+    def perform_create(self, serializer):
+        save_employee = serializer.save()
+
+
+class BattallionThreeViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionThreeSerializer
+    queryset = Battallion_three.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # print(serializer.validated_data['file_number'])
+        instance_file_number = serializer.validated_data['file_number']
+        check_battalion_one = Battallion_one.objects.filter(file_number=instance_file_number)
+        check_battalion_two = Battallion_two.objects.filter(file_number=instance_file_number)
+        check_battalion_four = Battallion_four.objects.filter(file_number=instance_file_number)
+        check_battalion_five = Battallion_five.objects.filter(file_number=instance_file_number)
+        check_battalion_six = Battallion_six.objects.filter(file_number=instance_file_number)
+        if(check_battalion_one.exists() == False and check_battalion_two.exists() == False 
+            and check_battalion_four.exists() == False and check_battalion_five.exists() == False 
+            and check_battalion_six.exists() == False):
+            
+            # print("File number doesn't exist in system")
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            # print("File number exists in system")
+            content = {"file_number_exists": "An employee with this file number already exists in VIPPU, if you need to resolve this, please contact the admin."}
+            headers = self.get_success_headers(serializer.data)
+            return Response(content, status=status.HTTP_400_BAD_REQUEST, headers=headers)
+
+    def perform_create(self, serializer):
+        save_employee = serializer.save()
+
+
+
+class BattallionFourViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFourSerializer
+    queryset = Battallion_four.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # print(serializer.validated_data['file_number'])
+        instance_file_number = serializer.validated_data['file_number']
+        check_battalion_one = Battallion_one.objects.filter(file_number=instance_file_number)
+        check_battalion_two = Battallion_two.objects.filter(file_number=instance_file_number)
+        check_battalion_three = Battallion_three.objects.filter(file_number=instance_file_number)
+        check_battalion_five = Battallion_five.objects.filter(file_number=instance_file_number)
+        check_battalion_six = Battallion_six.objects.filter(file_number=instance_file_number)
+        if(check_battalion_one.exists() == False and check_battalion_two.exists() == False 
+            and check_battalion_three.exists() == False and check_battalion_five.exists() == False 
+            and check_battalion_six.exists() == False):
+            
+            # print("File number doesn't exist in system")
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            # print("File number exists in system")
+            content = {"file_number_exists": "An employee with this file number already exists in VIPPU, if you need to resolve this, please contact the admin."}
+            headers = self.get_success_headers(serializer.data)
+            return Response(content, status=status.HTTP_400_BAD_REQUEST, headers=headers)
+
+    def perform_create(self, serializer):
+        save_employee = serializer.save()
+
+class BattallionSixViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionSixSerializer
+    queryset = Battallion_six.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # print(serializer.validated_data['file_number'])
+        instance_file_number = serializer.validated_data['file_number']
+        check_battalion_one = Battallion_one.objects.filter(file_number=instance_file_number)
+        check_battalion_two = Battallion_two.objects.filter(file_number=instance_file_number)
+        check_battalion_three = Battallion_three.objects.filter(file_number=instance_file_number)
+        check_battalion_four = Battallion_four.objects.filter(file_number=instance_file_number)
+        check_battalion_five = Battallion_five.objects.filter(file_number=instance_file_number)
+        if(check_battalion_one.exists() == False and check_battalion_two.exists() == False 
+            and check_battalion_three.exists() == False and check_battalion_four.exists() == False 
+            and check_battalion_five.exists() == False):
+            
+            # print("File number doesn't exist in system")
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            # print("File number exists in system")
+            content = {"file_number_exists": "An employee with this file number already exists in VIPPU, if you need to resolve this, please contact the admin."}
+            headers = self.get_success_headers(serializer.data)
+            return Response(content, status=status.HTTP_400_BAD_REQUEST, headers=headers)
+
+    def perform_create(self, serializer):
+        save_employee = serializer.save()
+
+class BattallionFiveViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = BattallionFiveSerializer
+    queryset = Battallion_five.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # print(serializer.validated_data['file_number'])
+        instance_file_number = serializer.validated_data['file_number']
+        check_battalion_one = Battallion_one.objects.filter(file_number=instance_file_number)
+        check_battalion_two = Battallion_two.objects.filter(file_number=instance_file_number)
+        check_battalion_three = Battallion_three.objects.filter(file_number=instance_file_number)
+        check_battalion_four = Battallion_four.objects.filter(file_number=instance_file_number)
+        check_battalion_six = Battallion_six.objects.filter(file_number=instance_file_number)
+        if(check_battalion_one.exists() == False and check_battalion_two.exists() == False 
+            and check_battalion_three.exists() == False and check_battalion_four.exists() == False 
+            and check_battalion_six.exists() == False):
+            
+            # print("File number doesn't exist in system")
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            # print("File number exists in system")
+            content = {"file_number_exists": "An employee with this file number already exists in VIPPU, if you need to resolve this, please contact the admin."}
+            headers = self.get_success_headers(serializer.data)
+            return Response(content, status=status.HTTP_400_BAD_REQUEST, headers=headers)
+
+    def perform_create(self, serializer):
+        save_employee = serializer.save()
+
+class DeletedEmployeeViewset(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = DeletedEmployeeSerializer
+    queryset = Deleted_Employee.objects.all()
 
 class BattalionThree_overrall(GenericAPIView):
     permission_classes = (IsAuthenticated,)
@@ -414,6 +605,44 @@ class BattalionTwo_overrall(GenericAPIView):
             "administration": administration
         }
         return Response(summary_object, status=status.HTTP_200_OK)
+
+
+class Vippu_Overrall(GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        print(request.user.account_type)
+        
+        try:
+            if(request.user.account_type == 'admin'):
+                battalion_one = len(Battallion_one.objects.all())
+                battalion_two = len(Battallion_two.objects.all())
+                battalion_three = len(Battallion_three.objects.all())
+                battalion_four = len(Battallion_four.objects.all())
+                battalion_five = len(Battallion_five.objects.all())
+                battalion_six = len(Battallion_six.objects.all())
+
+                total = (battalion_one + battalion_two + battalion_three 
+                        + battalion_four + battalion_five +  battalion_six )
+
+                summary_object = {
+                    "total": total,
+                    "battalion_one": battalion_one,
+                    "battalion_two": battalion_two,
+                    "battalion_three":  battalion_three,
+                    "battalion_four":  battalion_four,
+                    "battalion_five":  battalion_five,
+                    "battalion_six":  battalion_six
+                    
+                }
+                return Response(summary_object, status=status.HTTP_200_OK)
+        except: 
+            content = {"error": "You do not have access rights to this data"}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+        
+        
 
 class BattalionOne_overrall(GenericAPIView):
     permission_classes = (IsAuthenticated,)
