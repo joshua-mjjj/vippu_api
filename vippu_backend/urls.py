@@ -6,10 +6,10 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="VIPPU API",
+        title="POLICE DEPLOYMENT SYSTEM API",
         default_version="v1",
-        description="HRIMS Backend",
-        # terms_of_service="https://www.homepetvet.com",
+        description="POLICE DEPLOYMENT SYSTEM Backend",
+        # terms_of_service="https://www.police-deplyment-system.com",
         contact=openapi.Contact(email="shredakajoshua@gmail.com"),
         license=openapi.License(name="Awesome IP"),
     ),
